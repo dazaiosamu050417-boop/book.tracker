@@ -17,14 +17,34 @@ def add_book():
     print("Функция добавления книги (в разработке)")
 
 def show_all_books():
-    print("Функция показа всех книг (в разработке)")
+    books = load_books()
+    if not books:
+        print("\nСписок книг пуст.")
+        return
+    print("\n--- Список всех книг ---")
+    for i, book in enumerate(books, start=1):
+        print(f"{i}. {book['author']} - '{book['title']}'. Оценка: {book['rating']}. Дата: {book['date']}")
 
 def show_avg_rating():
-    print("Функция средней оценки (в разработке)")
+    books = load_books()
+    if not books:
+        print("\nНет книг для расчёта.")
+        return
+    avg_rating = sum(book['rating'] for book in books) / len(books)
+    print(f"\nСредняя оценка: {avg_rating:.2f}")
 
 def show_author_stats():
-    print("Функция статистики по авторам (в разработке)")
-
+    books = load_books()
+    if not books:
+        print("\nНет книг для статистики.")
+        return
+    stats = {}
+    for book in books:
+        author = book['author']
+        stats[author] = stats.get(author, 0) + 1
+    print("\n--- Статистика по авторам ---")
+    for author, count in stats.items():
+        print(f"{author}: {count} книг(а)")
 def delete_book():
     print("Функция удаления книги (в разработке)")
 
