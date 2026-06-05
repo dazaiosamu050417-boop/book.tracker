@@ -16,8 +16,15 @@ def save_books(books):
 def add_book():
     print("Функция добавления книги (в разработке)")
 
+
 def show_all_books():
-    print("Функция показа всех книг (в разработке)")
+    books = load_books()
+    if not books:
+        print("\nСписок книг пуст.")
+        return
+    print("\n--- Список всех книг ---")
+    for i, book in enumerate(books, start=1):
+        print(f"{i}. {book['author']} - '{book['title']}'. Оценка: {book['rating']}. Дата: {book['date']}")
 
 def show_avg_rating():
     print("Функция средней оценки (в разработке)")
@@ -26,7 +33,21 @@ def show_author_stats():
     print("Функция статистики по авторам (в разработке)")
 
 def delete_book():
-    print("Функция удаления книги (в разработке)")
+    books = load_books()
+    if not books:
+        print("\nСписок книг пуст.")
+        return
+    show_all_books()
+    try:
+        index = int(input("\nВведите номер книги для удаления: "))
+        if index < 1 or index > len(books):
+            print("Ошибка: неверный номер.")
+            return
+        removed = books.pop(index - 1)
+        save_books(books)
+        print(f"Книга '{removed['title']}' удалена!")
+    except ValueError:
+        print("Ошибка: введите число.")
 
 def main():
     while True:
