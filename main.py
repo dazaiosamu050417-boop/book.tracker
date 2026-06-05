@@ -13,70 +13,38 @@ def save_books(books):
     with open(DATA_FILE, 'w', encoding='utf-8') as f:
         json.dump(books, f, indent=4, ensure_ascii=False)
 
-def is_duplicate(books, author, title):
-    """Проверяет, есть ли уже такая книга."""
-    for book in books:
-        if book['author'].lower() == author.lower() and book['title'].lower() == title.lower():
-            return True
-    return False
-
 def add_book():
-    """Добавляет новую книгу."""
-    print("\n--- Добавление новой книги ---")
-    
-    author = input("Введите автора: ").strip()
-    if not author:
-        print("Ошибка: автор не может быть пустым.")
-        return
-    
-    title = input("Введите название: ").strip()
-    if not title:
-        print("Ошибка: название не может быть пустым.")
-        return
-    
-    # Загружаем текущие книги и проверяем дубликаты
-    books = load_books()
-    if is_duplicate(books, author, title):
-        print(f"Ошибка: книга '{title}' автора '{author}' уже существует.")
-        return
-
-    # Проверка оценки
-    try:
-        rating = int(input("Введите оценку (от 1 до 5): "))
-        if rating < 1 or rating > 5:
-            print("Ошибка: оценка должна быть от 1 до 5.")
-            return
-    except ValueError:
-        print("Ошибка: введите целое число.")
-        return
-    
-    # Ввод даты
-    date = input("Введите дату прочтения (например, 2024-05-15): ").strip()
-    if not date:
-        print("Ошибка: дата не может быть пустой.")
-        return
-    
-    # Создаём запись и сохраняем
-    new_book = {
-        "author": author,
-        "title": title,
-        "rating": rating,
-        "date": date
-    }
-    
-    books.append(new_book)
-    save_books(books)
-    print(f"Книга '{title}' успешно добавлена!")
+    print("Функция добавления книги (в разработке)")
 
 def show_all_books():
-    print("Функция показа всех книг (в разработке)")
+    books = load_books()
+    if not books:
+        print("\nСписок книг пуст.")
+        return
+    print("\n--- Список всех книг ---")
+    for i, book in enumerate(books, start=1):
+        print(f"{i}. {book['author']} - '{book['title']}'. Оценка: {book['rating']}. Дата: {book['date']}")
 
 def show_avg_rating():
-    print("Функция средней оценки (в разработке)")
+    books = load_books()
+    if not books:
+        print("\nНет книг для расчёта.")
+        return
+    avg_rating = sum(book['rating'] for book in books) / len(books)
+    print(f"\nСредняя оценка: {avg_rating:.2f}")
 
 def show_author_stats():
-    print("Функция статистики по авторам (в разработке)")
-
+    books = load_books()
+    if not books:
+        print("\nНет книг для статистики.")
+        return
+    stats = {}
+    for book in books:
+        author = book['author']
+        stats[author] = stats.get(author, 0) + 1
+    print("\n--- Статистика по авторам ---")
+    for author, count in stats.items():
+        print(f"{author}: {count} книг(а)")
 def delete_book():
     print("Функция удаления книги (в разработке)")
 
