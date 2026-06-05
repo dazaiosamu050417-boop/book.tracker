@@ -39,7 +39,7 @@ def add_book():
     if is_duplicate(books, author, title):
         print(f"Ошибка: книга '{title}' автора '{author}' уже существует.")
         return
-    
+
     # Проверка оценки
     try:
         rating = int(input("Введите оценку (от 1 до 5): "))
